@@ -1,0 +1,19 @@
+-- PID 0
+PA0  - quad A
+PA1  - quad B
+PB8  - PWM +
+PB9  - PWM -
+PB15 - Step
+PB14 - Dir
+
+-- PID 1
+PA6  - quad A
+PA7  - quad B
+PB6  - PWM +
+PB7  - PWM -
+PB13 - Step
+PB12 - Dir
+
+-- UART
+PA2 - UartTx
+PA3 - UartRx
