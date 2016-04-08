@@ -30,8 +30,6 @@ CC			:= $(PREFIX)gcc
 LD			:= $(PREFIX)gcc
 
 all: $(TARGET)
-	cp $(TARGET) win32
-	cp ui/gtune.ui win32/ui
 	
 $(TARGET): $(OBJS) $(HEADERS)
 	$(LD) -o $@ $(OBJS) $(LIBS) $(LDFLAGS) 
