@@ -25,7 +25,7 @@ void chart_btn_clicked_cb ()
 	guint32 size;
 	
 	if (!serial_port_get_feedback (&buf, &size)) {
-		print_status ("Ошибка таймаута");
+		print_status ("Serial port timeout");
 		return;
 	}	
 		
@@ -147,7 +147,7 @@ void read_btn_clicked_cb ()
 {
 	gint32 pos;
 	if (!serial_read_position (&pos)) {
-		print_status ("Ошибка таймаута"); 
+		print_status ("Serial port timeout"); 
 		return;		
 	}
 	
@@ -167,7 +167,7 @@ void load_from_flash_btn_clicked_cb ()
 		gtk_combo_box_get_active (GTK_COMBO_BOX (select_flash_cbox)),
 		&VL, &kF_i, &kP_i, &kI_i, &kD_i, &kG_i)))
 	{
-		print_status ("Ошибка таймаута");
+		print_status ("Serial port timeout");
 		return;
 	}
 	
@@ -190,7 +190,7 @@ void load_from_flash_btn_clicked_cb ()
 G_MODULE_EXPORT
 void save_to_flash_btn_clicked_cb ()
 {	
-	print_status ("Идет запись...");
+	print_status ("Flash write in progress...");
 	
 	void wait (gulong wait_us)
 	{

@@ -120,7 +120,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton" id="serial_connect_btn">
-                                        <property name="label" translatable="yes">Соединение</property>
+                                        <property name="label" translatable="yes">Connect</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
@@ -140,7 +140,7 @@
                               <object class="GtkLabel" id="serial_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"> Последовательный порт </property>
+                                <property name="label" translatable="yes">Serial port </property>
                               </object>
                             </child>
                           </object>
@@ -155,7 +155,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label_xalign">0</property>
-                            <property name="shadow_type">none</property>
+                            <property name="shadow_type">in</property>
                             <child>
                               <object class="GtkAlignment" id="servo_mode_alignment">
                                 <property name="visible">True</property>
@@ -171,7 +171,7 @@
                                     <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkRadioButton" id="pwm_rbtn">
-                                        <property name="label" translatable="yes">ШИМ</property>
+                                        <property name="label" translatable="yes">PWM</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -188,7 +188,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkRadioButton" id="torque_rbtn">
-                                        <property name="label" translatable="yes">Крутящий момент</property>
+                                        <property name="label" translatable="yes">Torque</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -206,7 +206,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkRadioButton" id="speed_rbtn">
-                                        <property name="label" translatable="yes">Скорость</property>
+                                        <property name="label" translatable="yes">Velocity</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -224,7 +224,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkRadioButton" id="position_rbtn">
-                                        <property name="label" translatable="yes">Позиция</property>
+                                        <property name="label" translatable="yes">Position</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -248,7 +248,7 @@
                               <object class="GtkLabel" id="servo_mode_lbl">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"> Серво-режим</property>
+                                <property name="label" translatable="yes">Servo mode </property>
                               </object>
                             </child>
                           </object>
@@ -294,7 +294,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton" id="read_btn">
-                                        <property name="label" translatable="yes">Получить</property>
+                                        <property name="label" translatable="yes">Get</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
@@ -314,7 +314,7 @@
                               <object class="GtkLabel" id="fb_frame_lbl">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"> Текущая позиция</property>
+                                <property name="label" translatable="yes"> Current position </property>
                               </object>
                             </child>
                           </object>
@@ -360,7 +360,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton" id="set_btn">
-                                        <property name="label" translatable="yes">Задать</property>
+                                        <property name="label" translatable="yes">Set</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
@@ -380,7 +380,7 @@
                               <object class="GtkLabel" id="sp_frame_lbl">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"> Позиция "назначение"</property>
+                                <property name="label" translatable="yes"> Setpoint </property>
                               </object>
                             </child>
                           </object>
@@ -399,7 +399,7 @@
                             <property name="homogeneous">True</property>
                             <child>
                               <object class="GtkButton" id="rst_btn">
-                                <property name="label" translatable="yes">Сброс</property>
+                                <property name="label" translatable="yes">Reset</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -413,7 +413,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="chart_btn">
-                                <property name="label" translatable="yes">График</property>
+                                <property name="label" translatable="yes">Chart</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -506,7 +506,7 @@
                                               <object class="GtkLabel" id="VL_lbl">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Лимит скор.</property>
+                                                <property name="label" translatable="yes">Velocity limit</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">0</property>
@@ -654,7 +654,7 @@
                                             <property name="layout_style">center</property>
                                             <child>
                                               <object class="GtkButton" id="gains_set_btn">
-                                                <property name="label" translatable="yes">Задать</property>
+                                                <property name="label" translatable="yes">Set</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -736,7 +736,7 @@
                                                     <property name="layout_style">start</property>
                                                     <child>
                                                       <object class="GtkButton" id="load_from_flash_btn">
-                                                        <property name="label" translatable="yes">Загрузить</property>
+                                                        <property name="label" translatable="yes">Load</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
@@ -750,7 +750,7 @@
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="save_to_flash_btn">
-                                                        <property name="label" translatable="yes">Сохранить</property>
+                                                        <property name="label" translatable="yes">Store</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
@@ -777,7 +777,7 @@
                                           <object class="GtkLabel" id="flash_frame_lbl">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes"> ПЗУ </property>
+                                            <property name="label" translatable="yes"> ROM </property>
                                           </object>
                                         </child>
                                       </object>
@@ -795,7 +795,7 @@
                               <object class="GtkLabel" id="gains_frame_lbl">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes"> Параметры </property>
+                                <property name="label" translatable="yes"> Parameters </property>
                               </object>
                             </child>
                           </object>
@@ -853,7 +853,7 @@
                                             <property name="layout_style">center</property>
                                             <child>
                                               <object class="GtkButton" id="go_zero_btn">
-                                                <property name="label" translatable="yes">Ноль</property>
+                                                <property name="label" translatable="yes">Zero</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -924,7 +924,7 @@
                                       <object class="GtkLabel" id="encoder_frame_lbl">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"> Енкодер </property>
+                                        <property name="label" translatable="yes"> Encoder </property>
                                       </object>
                                     </child>
                                   </object>
@@ -964,7 +964,7 @@
                                       <object class="GtkLabel" id="gear_frame_lbl">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"> Редуктор </property>
+                                        <property name="label" translatable="yes"> Gear ratio</property>
                                       </object>
                                     </child>
                                   </object>
