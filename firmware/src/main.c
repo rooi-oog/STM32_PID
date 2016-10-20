@@ -9,7 +9,7 @@
 
 extern void periph_init (void);
 
-/* Memory allocation size */
+/* Feedback memory allocation size */
 #define BUF_SIZE	1000
 
 /* Array of PID struct */
@@ -47,7 +47,7 @@ void EXTI15_10_IRQHandler (void)
 		/* Clear interrupt pending bit */
 		EXTI->PR |= (1 << STEP_0_PIN);
 		/* Check direction */
-		dir = (GPIOB->ODR & (1 << DIR_0_PIN)) == 0;
+		dir = (GPIOB->IDR & (1 << DIR_0_PIN)) == 0;
 		/* Calc position according to direction */
 		step_0_cnt += dir - !dir;
 		/* Set new point to PID */
@@ -58,7 +58,7 @@ void EXTI15_10_IRQHandler (void)
 	if (EXTI->PR & (1 << STEP_1_PIN))
 	{
 		EXTI->PR |= (1 << STEP_1_PIN);
-		dir = (GPIOB->ODR & (1 << DIR_1_PIN)) == 0;
+		dir = (GPIOB->IDR & (1 << DIR_1_PIN)) == 0;
 		step_1_cnt += dir - !dir;
 		pid_set_point (&pid [1], step_1_cnt);
 	}

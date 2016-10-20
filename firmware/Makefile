@@ -8,7 +8,7 @@
 
 # Self made STM32F103C8 board
 CPU			:= F10X_MD
-HSE_VALUE	:= 12000000
+HSE_VALUE	:= 8000000
 
 # ------------------------------------------------------------------------------------------- #
 # Programm name
@@ -36,12 +36,12 @@ OBJS		+= $(patsubst %.c, %.o, $(shell ls -1 $(SYSTEM_DIR)/newlib/*.c))
 OBJS		+= $(patsubst %.c, %.o, $(shell find src -type f -name "*.c"))
 
 # Optimization / debug flags
-OPT			:= -O2 #-g3 -Og 
+OPT			:= -g3 -Og 
 
 # Common C and Linker flags
 FLAGS		:= $(MCPU) $(OPT) -mthumb -fmessage-length=0 -fsigned-char 
 FLAGS		+= -ffunction-sections -fdata-sections -ffreestanding 
-FLAGS		+= -fno-move-loop-invariants -Wall -Wextra -Werror
+FLAGS		+= -fno-move-loop-invariants -Wall -Wextra 
 
 # C compiler flags
 CFLAGS		:= $(FLAGS) -DSTM32$(CPU) -DHSE_VALUE=$(HSE_VALUE)
@@ -72,9 +72,10 @@ all: $(TARGET)
 	$(PREFIX)objcopy -O ihex $(TARGET_DIR)/$(TARGET) $(TARGET_DIR)/$(PROG_NAME).hex
 
 pgm: $(TARGET)
-	openocd -f  usbblaster.cfg -c "program $(TARGET_DIR)/$(TARGET) verify reset exit"
+#	openocd -f  usbblaster.cfg -c "program $(TARGET_DIR)/$(TARGET) verify reset exit"
 #	openocd -f stlink_v2.1.cfg -c "program $(TARGET_DIR)/$(TARGET) verify reset exit"
-#	openocd -f stlink_v2.1.f103.cfg -c "program $(TARGET_DIR)/$(TARGET) verify reset exit"	
+#	openocd -f stlink_v2.1.f103.cfg -c "program $(TARGET_DIR)/$(TARGET) verify reset exit"
+	openocd -f stlink_v2.cfg -c "program $(TARGET_DIR)/$(TARGET) verify reset exit"	
 	
 $(TARGET): $(OBJS)
 	$(LD) $(LDFLAGS) -o $(TARGET_DIR)/$@ $^ $(LIBS)

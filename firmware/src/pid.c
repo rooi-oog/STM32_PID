@@ -80,7 +80,7 @@ void pid_update (arm_pid_t *pid_inst, uint8_t speed_compare)
 	/* Difference between setpoint and feedback */
 	int32_t error;
 	/* Servo mode sub-command */
-	int32_t pidcmd = pid_inst->subcmd;
+	volatile int32_t pidcmd = pid_inst->subcmd;
 	
 	/* Stop interrupt until get timer counters */
 	__disable_irq ();	
@@ -108,13 +108,19 @@ void pid_update (arm_pid_t *pid_inst, uint8_t speed_compare)
 			error = pidcmd - ((pid_inst->velocity * pid_inst->pid.Kf) >> FIXED_POINT_POSITION);
 			/* Integral part */			
 			out  = (int64_t) pid_inst->integral * (int64_t) pid_inst->pid.Ki;
+			/* Accumulate error + anti wind-up */
+			if ((out >> FIXED_POINT_POSITION) > -500 && (out >> FIXED_POINT_POSITION) < 500)
+				pid_inst->integral += (int64_t) error;					
 			/* Proportional part */
 			out += (int64_t) error * (int64_t) pid_inst->pid.Kp;
 			/* Derivative part */
 			out += (int64_t) (error - pid_inst->last_error) * (int64_t) pid_inst->pid.Kd;
 			
-			/* Accumulate error */
-			pid_inst->integral  += error;
+			/* Accumulate error + anti wind-up */			
+			//pid_inst->integral = LIMIT (32768, -32768, pid_inst->integral + (int64_t) error); 
+			//LIMIT (INT64_MAX / 64, INT64_MIN / 64, pid_inst->integral + (int64_t) error);
+			//pid_inst->integral += error;
+			
 			/* Get error derivative */
 			pid_inst->last_error = error;
 
