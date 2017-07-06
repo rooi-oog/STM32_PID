@@ -36,12 +36,17 @@ void pid_set_parameters (arm_pid_t *pid_inst, int32_t value, uint8_t index)
 	/* Proportional gain */
 	case 2: pid_inst->pid.Kp = value; break;
 	/* Integral gain */
-	case 3: pid_inst->pid.Ki = value; break;
+	case 3: 
+		pid_inst->pid.Ki = value; 
+		/* Set integral limit to maximum PWM value */
+		pid_inst->integral_limit = 
+			(pid_inst->pwm_max_val << FIXED_POINT_POSITION) / pid_inst->pid.Ki;
+		break;
 	/* Derivative gain */
 	case 4: pid_inst->pid.Kd = value; break;
 	/* Torque feedback gain */
 	case 5: pid_inst->pid.Kg = value; break;
-	}
+	}		
 }
 
 /* Set new servo mode */
@@ -85,15 +90,15 @@ void pid_update (arm_pid_t *pid_inst, uint8_t speed_compare)
 	/* Stop interrupt until get timer counters */
 	__disable_irq ();	
 	pid_inst->feedback += (int16_t) *pid_inst->encoder;		// Current position = previous position + encoder value
-	*pid_inst->encoder = 0;									// After reading TIMx->CNT we need to clear it
 	__enable_irq ();
+	*pid_inst->encoder = 0;									// After reading TIMx->CNT we need to clear it	
 
 	/* Speed sampling at 250Hz */	
 	if (speed_compare)
 	{
 		pid_inst->velocity = 
 			pid_inst->feedback - pid_inst->last_position;	// Speed = current position - previous position
-		pid_inst->last_position = pid_inst->feedback;		// The last_position is need to calculate the velocity
+		pid_inst->last_position = pid_inst->feedback;		// The last_position is need to calculate the velocity		
 	}	
 	
 	switch (pid_inst->servo_mode)
@@ -106,26 +111,26 @@ void pid_update (arm_pid_t *pid_inst, uint8_t speed_compare)
 		case SPEED:
 			/* Get mismatch of setpoint and feedback with feedback gain */
 			error = pidcmd - ((pid_inst->velocity * pid_inst->pid.Kf) >> FIXED_POINT_POSITION);
-			/* Integral part */			
+			
+			/* Integral part */
 			out  = (int64_t) pid_inst->integral * (int64_t) pid_inst->pid.Ki;
+			
 			/* Accumulate error + anti wind-up */
-			if ((out >> FIXED_POINT_POSITION) > -500 && (out >> FIXED_POINT_POSITION) < 500)
-				pid_inst->integral += (int64_t) error;					
+			pid_inst->integral = LIMIT (pid_inst->integral_limit, -pid_inst->integral_limit,
+				pid_inst->integral + error);
+				
 			/* Proportional part */
 			out += (int64_t) error * (int64_t) pid_inst->pid.Kp;
+			
 			/* Derivative part */
 			out += (int64_t) (error - pid_inst->last_error) * (int64_t) pid_inst->pid.Kd;
-			
-			/* Accumulate error + anti wind-up */			
-			//pid_inst->integral = LIMIT (32768, -32768, pid_inst->integral + (int64_t) error); 
-			//LIMIT (INT64_MAX / 64, INT64_MIN / 64, pid_inst->integral + (int64_t) error);
-			//pid_inst->integral += error;
 			
 			/* Get error derivative */
 			pid_inst->last_error = error;
 
 			/* Limit PID result to max torque */
-			pidcmd = LIMIT (500, -500, out >> FIXED_POINT_POSITION);
+			// TODO: Should be as parameter
+			pidcmd = LIMIT (1500, -1500, out >> FIXED_POINT_POSITION);
 		
 		case TORQUE:
 			pidcmd += ((pid_inst->velocity * pid_inst->pid.Kg) >> FIXED_POINT_POSITION);			
@@ -136,7 +141,7 @@ void pid_update (arm_pid_t *pid_inst, uint8_t speed_compare)
 	}
 }
 
-void pid_init (arm_pid_t *pid_inst, 
+void pid_init (arm_pid_t *pid_inst, const arm_pid_instance_t *pid_gains,
 	int32_t pwm_max_val, uint32_t *pwm_p, uint32_t *pwm_n, uint32_t *encoder)
 {
 	bzero (pid_inst, sizeof (arm_pid_t));
@@ -147,5 +152,11 @@ void pid_init (arm_pid_t *pid_inst,
 	pid_inst->encoder = encoder;
 	pid_inst->subcmd = 0;
 	pid_inst->servo_mode = POSITION;
+	
+	/* Load PID gains */
+	memcpy (&pid_inst->pid, pid_gains, sizeof (arm_pid_instance_t));
+	
+	/* Set integral limit to maximum PWM value */
+	pid_inst->integral_limit = (pid_inst->pwm_max_val << FIXED_POINT_POSITION) / pid_inst->pid.Ki; 
 }
 

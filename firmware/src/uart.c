@@ -71,7 +71,7 @@ void uart_init ()
 	GPIOA->CRL  |= 0x00008A00;
 	GPIOA->BSRR	 = 0x12;									// pull up PA2 & PA3 
 	
-	const uint32_t baudrate = 115200;//921600;
+	const uint32_t baudrate = 115200;//3000000;//921600;
 	const uint32_t integer  = ((25 * 36000000) / (4 * baudrate));
 	const uint32_t fract    = ((((integer * 16) + 50) / 100)) & ((uint8_t) 0x0F);
 

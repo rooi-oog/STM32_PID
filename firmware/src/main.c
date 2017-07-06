@@ -95,6 +95,7 @@ void check_uart_cmd (void)
 	{
 		char buf = uart_read ();					// Read that char from rx_buffer
 		
+		
 		if (buf == '\r' || buf == '\n')				// If character either "return carriage" 
 													// or "line feed" then command is complete
 		{
@@ -196,7 +197,8 @@ void main (void)
 	uart_init ();
 	
 	/* PID 0 initialization */
-	pid_init (	&pid [0],				// Memory pointer to arm_pid_t struct 
+	pid_init (	&pid [0],				// Memory pointer to arm_pid_t struct
+				&pid_eeprom [0],		// Memory pointer to pid gains
 				PWM_MAX_VAL,			// Maximum PWM value				
 				(uint32_t *) &PWM1_P,	// Memory pointer to TIMx->CCRx register (channel 1)
 				(uint32_t *) &PWM1_N,	// Memory pointer to TIMx->CCRx register (channel 2)
@@ -204,18 +206,12 @@ void main (void)
 	);
 
 	/* PID 1 initialization */
-	pid_init (&pid [1], PWM_MAX_VAL, 
+	pid_init (&pid [1], &pid_eeprom [1], PWM_MAX_VAL, 
 		(uint32_t *) &PWM2_P, (uint32_t *) &PWM2_N, (uint32_t *) &ENC_1);	
-
-	/* Load PID 0 gains from eeprom */
-	memcpy (&pid [0].pid, &pid_eeprom [0], sizeof (arm_pid_instance_t));
-	
-	/* Load PID 1 gains from eeprom */
-	memcpy (&pid [1].pid, &pid_eeprom [1], sizeof (arm_pid_instance_t));
 
 	/* Global interrupt enable */
 	__enable_irq ();
-		
+	
 	/* Infinitie loop */
 	for (;;)
 	{
