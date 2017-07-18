@@ -36,7 +36,8 @@ typedef struct
 	int32_t setpoint;
 	int32_t feedback;
 	int32_t velocity;
-	int64_t integral;
+	int32_t integral;
+	int32_t integral_limit;
 	int32_t last_error;
 	int32_t last_position;
 	int32_t pwm_max_val;
@@ -45,7 +46,7 @@ typedef struct
 	uint32_t *encoder;
 } arm_pid_t;
 
-void pid_init (arm_pid_t *pid_inst, int32_t, uint32_t *, uint32_t *, uint32_t *);
+void pid_init (arm_pid_t *pid_inst, const arm_pid_instance_t *, int32_t, uint32_t *, uint32_t *, uint32_t *);
 void pid_set_point (arm_pid_t *, int32_t);
 void pid_set_parameters (arm_pid_t *, int32_t, uint8_t);
 void pid_reset (arm_pid_t *);

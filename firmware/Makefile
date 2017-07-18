@@ -36,7 +36,7 @@ OBJS		+= $(patsubst %.c, %.o, $(shell ls -1 $(SYSTEM_DIR)/newlib/*.c))
 OBJS		+= $(patsubst %.c, %.o, $(shell find src -type f -name "*.c"))
 
 # Optimization / debug flags
-OPT			:= -g3 -Og 
+OPT			:= -O3 -g #-g3 -Og 
 
 # Common C and Linker flags
 FLAGS		:= $(MCPU) $(OPT) -mthumb -fmessage-length=0 -fsigned-char 
@@ -66,7 +66,7 @@ LD			:= $(PREFIX)gcc
 
 all: $(TARGET)
 	# Get disassembled
-	$(PREFIX)objdump -D --wide $(TARGET_DIR)/$(TARGET) > $(TARGET_DIR)/$(PROG_NAME).asm
+	$(PREFIX)objdump -DS --wide $(TARGET_DIR)/$(TARGET) > $(TARGET_DIR)/$(PROG_NAME).asm
 	# Get binary firmware
 	$(PREFIX)objcopy -O binary $(TARGET_DIR)/$(TARGET) $(TARGET_DIR)/$(PROG_NAME).bin
 	$(PREFIX)objcopy -O ihex $(TARGET_DIR)/$(TARGET) $(TARGET_DIR)/$(PROG_NAME).hex
